@@ -11,14 +11,14 @@ public class EntityHandler
         this.entityList = entityList;
     }
 
-    public void update(InputHandler inputHandler)
+    public void update()
     {
         for (Entity entity : entityList) 
         {
                 switch (entity.getClass().getSimpleName())
                 {
                     case "Player":
-                        ((Player) entity).update(inputHandler);
+                        ((Player) entity).update();
                         break;
                 }
         }

@@ -2,8 +2,6 @@ package com.vex;
 
 import static org.lwjgl.glfw.GLFW.*;
 
-import org.lwjgl.system.windows.INPUT;
-
 public class Player extends Entity
 {
     private int speedMultiplier;
@@ -62,17 +60,17 @@ public class Player extends Entity
         setYPosition(getYPosition() + deltaY);
     }
 
-    public void update(InputHandler inputHandler)
+    public void update()
     {
         Vector2D playerPreviousPosition = new Vector2D(getXPosition(), getYPosition());
 
-        if (inputHandler.isKeyPressed(GLFW_KEY_W) || inputHandler.isKeyHeld(GLFW_KEY_W))
+        if (InputHandler.isKeyPressed(GLFW_KEY_W) || InputHandler.isKeyHeld(GLFW_KEY_W))
             move(new Vector2D(0, 1*getSpeedMultiplier()));
-        if (inputHandler.isKeyPressed(GLFW_KEY_S) || inputHandler.isKeyHeld(GLFW_KEY_S))
+        if (InputHandler.isKeyPressed(GLFW_KEY_S) || InputHandler.isKeyHeld(GLFW_KEY_S))
             move(new Vector2D(0, -1*getSpeedMultiplier()));
-        if (inputHandler.isKeyPressed(GLFW_KEY_A) || inputHandler.isKeyHeld(GLFW_KEY_A))
+        if (InputHandler.isKeyPressed(GLFW_KEY_A) || InputHandler.isKeyHeld(GLFW_KEY_A))
             move(new Vector2D(-1*getSpeedMultiplier(), 0));
-        if (inputHandler.isKeyPressed(GLFW_KEY_D) || inputHandler.isKeyHeld(GLFW_KEY_D))
+        if (InputHandler.isKeyPressed(GLFW_KEY_D) || InputHandler.isKeyHeld(GLFW_KEY_D))
             move(new Vector2D(1*getSpeedMultiplier(), 0));
 
         if (InputHandler.mouseButtonDown(0))

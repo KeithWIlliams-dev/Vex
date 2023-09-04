@@ -116,7 +116,7 @@ public class Window
 			glfwPollEvents();
 
             inputHandler.update();
-			entityHandler.update(inputHandler);
+			entityHandler.update();
 		}
 	}
 }

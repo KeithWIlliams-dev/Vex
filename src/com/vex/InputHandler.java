@@ -11,7 +11,7 @@ public class InputHandler
     private static long windowId;
 
     // Keyboard
-    private Map<Integer, KeyState> keyStates = new HashMap<>();
+    private static Map<Integer, KeyState> keyStates = new HashMap<>();
     private Map<Integer, Long> keyHeldTime = new HashMap<>();
 
     // Mouse
@@ -70,17 +70,17 @@ public class InputHandler
         }
     }
 
-    public boolean isKeyReleaed(int key)
+    public static boolean isKeyReleaed(int key)
     {
         return keyStates.getOrDefault(key, KeyState.RELEASED) == KeyState.RELEASED;
     }
 
-    public boolean isKeyPressed(int key)
+    public static boolean isKeyPressed(int key)
     {
         return keyStates.getOrDefault(key, KeyState.RELEASED) == KeyState.PRESSED;
     }
 
-    public boolean isKeyHeld(int key)
+    public static boolean isKeyHeld(int key)
     {
         return keyStates.getOrDefault(key, KeyState.RELEASED) == KeyState.HELD;
     }
