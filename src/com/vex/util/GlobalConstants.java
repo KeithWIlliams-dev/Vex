@@ -1,4 +1,4 @@
-package com.vex;
+package com.vex.util;
 
 public class GlobalConstants
 {

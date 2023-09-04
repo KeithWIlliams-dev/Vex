@@ -2,6 +2,8 @@ package com.vex;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+import com.vex.util.GlobalConstants;
+
 public class Player extends Entity
 {
     private int speedMultiplier;

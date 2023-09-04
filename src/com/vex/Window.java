@@ -5,6 +5,9 @@ import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
+import com.vex.util.GlobalConstants;
+import com.vex.util.Time;
+
 import java.nio.*;
 import java.util.ArrayList;
 
@@ -21,12 +24,31 @@ public class Window
 	private int width, height;
 	private String title;
 	private long windowId;
+	private static Scene currentScene = null;
 
 	public Window() 
 	{
 		this.width = 1920;
 		this.height = 1080;
 		this.title = "Vex";
+	}
+
+	public static void changeScene(int newScene)
+	{
+		switch (newScene)
+		{
+			case 0:
+				currentScene = new LevelEditorScene();
+				//currentScene.init();
+				break;
+			case 1:
+				currentScene = new LevelScene();
+				//currentScene.init();
+				break;
+			default:
+				assert false : "Unknown Scene "+newScene;
+				break;
+		}
 	}
 
 	public static Window get()
@@ -99,6 +121,9 @@ public class Window
 
 	private void loop() 
     {
+		float frameBeginTime = Time.getTime();
+		float frameEndTime = Time.getTime();
+
 		Player player = new Player(windowId, 0, 0, 1);
         ArrayList<Entity> entityList = new ArrayList<>();
 		entityList.add(player);
@@ -117,6 +142,11 @@ public class Window
 
             inputHandler.update();
 			entityHandler.update();
+
+			frameEndTime = Time.getTime();
+			float deltaTime = frameEndTime - frameBeginTime;
+			frameBeginTime = frameEndTime;
+
 		}
 	}
 }
