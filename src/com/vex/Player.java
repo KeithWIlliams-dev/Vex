@@ -2,6 +2,8 @@ package com.vex;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+import org.lwjgl.system.windows.INPUT;
+
 public class Player extends Entity
 {
     private int speedMultiplier;
@@ -72,6 +74,16 @@ public class Player extends Entity
             move(new Vector2D(-1*getSpeedMultiplier(), 0));
         if (inputHandler.isKeyPressed(GLFW_KEY_D) || inputHandler.isKeyHeld(GLFW_KEY_D))
             move(new Vector2D(1*getSpeedMultiplier(), 0));
+
+        if (InputHandler.mouseButtonDown(0))
+            System.out.println("Left Click");
+        if (InputHandler.mouseButtonDown(1))
+            System.out.println("Right Click");
+        if (InputHandler.mouseButtonDown(2))
+            System.out.println("Middle Mouse Button Clicked");
+
+        if (InputHandler.isDragging())
+            System.out.println("Mouse is dragging");
 
         if (GlobalConstants.debugMode && (playerPreviousPosition.getX() != getXPosition() || playerPreviousPosition.getY() != getYPosition()))    
             System.out.println("Player <"+getXPosition()+","+getYPosition()+">");
