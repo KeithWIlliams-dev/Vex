@@ -5,6 +5,8 @@ import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
+import com.vex.util.GlobalConstants;
+
 import java.nio.*;
 import java.util.ArrayList;
 
@@ -21,12 +23,31 @@ public class Window
 	private int width, height;
 	private String title;
 	private long windowId;
+	private static Scene currentScene = null;
 
 	public Window() 
 	{
-		this.width = 1920;
-		this.height = 1080;
+		this.width = 500;
+		this.height = 500;
 		this.title = "Vex";
+	}
+
+	public static void changeScene(int newScene)
+	{
+		switch (newScene)
+		{
+			case 0:
+				currentScene = new LevelEditorScene();
+				//currentScene.init();
+				break;
+			case 1:
+				currentScene = new LevelScene();
+				//currentScene.init();
+				break;
+			default:
+				assert false : "Unknown Scene "+newScene;
+				break;
+		}
 	}
 
 	public static Window get()
@@ -62,7 +83,8 @@ public class Window
 		glfwDefaultWindowHints(); 
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); 
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
-		glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
+		glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
+		//glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
 
 		windowId = glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
 		if ( windowId == NULL )
@@ -87,6 +109,7 @@ public class Window
 		glfwSetCursorPosCallback(windowId, InputHandler::mousePositionCallback);
 		glfwSetMouseButtonCallback(windowId, InputHandler::mouseButtonCallback);
 		glfwSetScrollCallback(windowId, InputHandler::mouseScrollCallback);
+		glfwSetKeyCallback(windowId, InputHandler::keyCallback);
 
 		glfwMakeContextCurrent(windowId);
 		glfwSwapInterval(1);
@@ -95,10 +118,16 @@ public class Window
 		glClearColor(1.0f, 0.0f, 1.0f, 1.0f);
 
 		glfwShowWindow(windowId);
+
+		Window.changeScene(0);
 	}
 
 	private void loop() 
     {
+		double frameBeginTime = glfwGetTime();
+		double frameEndTime;
+		double deltaTime = -1.0f;
+
 		Player player = new Player(windowId, 0, 0, 1);
         ArrayList<Entity> entityList = new ArrayList<>();
 		entityList.add(player);
@@ -117,6 +146,14 @@ public class Window
 
             inputHandler.update();
 			entityHandler.update();
+
+			if (deltaTime >= 0)
+				currentScene.update(deltaTime);
+
+			frameEndTime = glfwGetTime();
+			deltaTime = frameEndTime - frameBeginTime;
+			frameBeginTime = frameEndTime;
+
 		}
 	}
 }

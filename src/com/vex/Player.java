@@ -2,6 +2,8 @@ package com.vex;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+import com.vex.util.GlobalConstants;
+
 public class Player extends Entity
 {
     private int speedMultiplier;
@@ -74,17 +76,30 @@ public class Player extends Entity
             move(new Vector2D(1*getSpeedMultiplier(), 0));
 
         if (InputHandler.mouseButtonDown(0))
-            System.out.println("Left Click");
+        {
+            if (GlobalConstants.debugMode)
+                System.out.println("Left Click");
+        }
         if (InputHandler.mouseButtonDown(1))
-            System.out.println("Right Click");
+        {
+            if (GlobalConstants.debugMode)
+                System.out.println("Right Click");
+        }
         if (InputHandler.mouseButtonDown(2))
-            System.out.println("Middle Mouse Button Clicked");
-
+        {
+            if (GlobalConstants.debugMode)
+                System.out.println("Middle Mouse Button Clicked");
+        }
         if (InputHandler.isDragging())
-            System.out.println("Mouse is dragging");
-
-        if (GlobalConstants.debugMode && (playerPreviousPosition.getX() != getXPosition() || playerPreviousPosition.getY() != getYPosition()))    
-            System.out.println("Player <"+getXPosition()+","+getYPosition()+">");
+        {
+            if (GlobalConstants.debugMode)
+                System.out.println("Mouse is dragging");
+        }
+        if (GlobalConstants.debugMode && (playerPreviousPosition.getX() != getXPosition() || playerPreviousPosition.getY() != getYPosition()))
+        {    
+            if (GlobalConstants.debugMode)
+                System.out.println("Player <"+getXPosition()+","+getYPosition()+">");
+        }
     }
 
 }
