@@ -6,7 +6,6 @@ import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
 import com.vex.util.GlobalConstants;
-import com.vex.util.Time;
 
 import java.nio.*;
 import java.util.ArrayList;
@@ -28,8 +27,8 @@ public class Window
 
 	public Window() 
 	{
-		this.width = 1920;
-		this.height = 1080;
+		this.width = 500;
+		this.height = 500;
 		this.title = "Vex";
 	}
 
@@ -84,7 +83,8 @@ public class Window
 		glfwDefaultWindowHints(); 
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); 
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
-		glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
+		glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
+		//glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
 
 		windowId = glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
 		if ( windowId == NULL )
@@ -109,6 +109,7 @@ public class Window
 		glfwSetCursorPosCallback(windowId, InputHandler::mousePositionCallback);
 		glfwSetMouseButtonCallback(windowId, InputHandler::mouseButtonCallback);
 		glfwSetScrollCallback(windowId, InputHandler::mouseScrollCallback);
+		glfwSetKeyCallback(windowId, InputHandler::keyCallback);
 
 		glfwMakeContextCurrent(windowId);
 		glfwSwapInterval(1);
@@ -117,12 +118,15 @@ public class Window
 		glClearColor(1.0f, 0.0f, 1.0f, 1.0f);
 
 		glfwShowWindow(windowId);
+
+		Window.changeScene(0);
 	}
 
 	private void loop() 
     {
-		float frameBeginTime = Time.getTime();
-		float frameEndTime = Time.getTime();
+		double frameBeginTime = glfwGetTime();
+		double frameEndTime;
+		double deltaTime = -1.0f;
 
 		Player player = new Player(windowId, 0, 0, 1);
         ArrayList<Entity> entityList = new ArrayList<>();
@@ -143,8 +147,11 @@ public class Window
             inputHandler.update();
 			entityHandler.update();
 
-			frameEndTime = Time.getTime();
-			float deltaTime = frameEndTime - frameBeginTime;
+			if (deltaTime >= 0)
+				currentScene.update(deltaTime);
+
+			frameEndTime = glfwGetTime();
+			deltaTime = frameEndTime - frameBeginTime;
 			frameBeginTime = frameEndTime;
 
 		}

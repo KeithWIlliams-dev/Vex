@@ -12,7 +12,7 @@ public class InputHandler
 
     // Keyboard
     private static Map<Integer, KeyState> keyStates = new HashMap<>();
-    private Map<Integer, Long> keyHeldTime = new HashMap<>();
+    private static Map<Integer, Long> keyHeldTime = new HashMap<>();
 
     // Mouse
     private double scrollX, scrollY;
@@ -39,8 +39,6 @@ public class InputHandler
             keyStates.put(i, KeyState.RELEASED);
             keyHeldTime.put(i, 0L);   
         }
-
-        glfwSetKeyCallback(windowId, this::keyCallback);
     }
 
     public static InputHandler get()
@@ -51,7 +49,7 @@ public class InputHandler
         return inputHandler;
     }
 
-    private void keyCallback(long window, int key, int scancode, int action, int modifier)
+    public static void keyCallback(long window, int key, int scancode, int action, int modifier)
     {
         if (key >= 0 && key < 512) 
         {
